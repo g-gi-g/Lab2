@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<facultySoftwareDatabase>
+	
+	<Software 
+		Name="Example name 1"
+		Annotation="Example annotation 1"
+		Type="Example type 1"
+		Version="Example version 1"
+		Author="Example author 1"
+		TermsOfUsage="Example terms of usage 1"
+		DistributiveLocation="Example distributive location 1">
+	</Software>
+
+	<Software
+		Name="Example name 1"
+		Annotation="Example annotation 2"
+		Type="Example type 2"
+		Version="Example version 2"
+		Author="Example author 2"
+		TermsOfUsage="Example terms of usage 2"
+		DistributiveLocation="Example distributive location 2">
+	</Software>
+
+	<Software
+		Name="Example name 3"
+		Annotation="Example annotation 3"
+		Type="Example type 3"
+		Version="Example version 3"
+		Author="Example author 3"
+		TermsOfUsage="Example terms of usage 3"
+		DistributiveLocation="Example distributive location 3">
+	</Software>
+	
+</facultySoftwareDatabase>

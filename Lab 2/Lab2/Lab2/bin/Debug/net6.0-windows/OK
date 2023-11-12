@@ -1,0 +1,45 @@
+﻿<HTML>
+  <BODY>
+    <p>
+      <H2> Програмне забезпечення на мережі факультету </H2>
+    </p>
+    <TABLE BORDER="2">
+      <TR>
+        <TH>Назва</TH>
+        <TH>Анотація</TH>
+        <TH>Вид</TH>
+        <TH>Версія</TH>
+        <TH>Автор</TH>
+        <TH>Умови використання</TH>
+        <TH>Місце запису дистрибутиву</TH>
+      </TR>
+      <TR>
+        <TD>Example name 1</TD>
+        <TD>Example annotation 1</TD>
+        <TD>Example type 1</TD>
+        <TD>Example version 1</TD>
+        <TD>Example author 1</TD>
+        <TD>Example terms of usage 1</TD>
+        <TD>Example distributive location 1</TD>
+      </TR>
+      <TR>
+        <TD>Example name 1</TD>
+        <TD>Example annotation 2</TD>
+        <TD>Example type 2</TD>
+        <TD>Example version 2</TD>
+        <TD>Example author 2</TD>
+        <TD>Example terms of usage 2</TD>
+        <TD>Example distributive location 2</TD>
+      </TR>
+      <TR>
+        <TD>Example name 3</TD>
+        <TD>Example annotation 3</TD>
+        <TD>Example type 3</TD>
+        <TD>Example version 3</TD>
+        <TD>Example author 3</TD>
+        <TD>Example terms of usage 3</TD>
+        <TD>Example distributive location 3</TD>
+      </TR>
+    </TABLE>
+  </BODY>
+</HTML>
