@@ -29,7 +29,7 @@ partial class UserView
     private void InitializeComponent()
     {
         label1 = new Label();
-        DocPathEntry = new TextBox();
+        InputXMLPathEntry = new TextBox();
         OutputEntry = new TextBox();
         groupBox1 = new GroupBox();
         DistributiveCheckBox = new CheckBox();
@@ -70,11 +70,11 @@ partial class UserView
         // 
         // DocPathEntry
         // 
-        DocPathEntry.Location = new Point(36, 53);
-        DocPathEntry.Name = "DocPathEntry";
-        DocPathEntry.ReadOnly = true;
-        DocPathEntry.Size = new Size(497, 23);
-        DocPathEntry.TabIndex = 1;
+        InputXMLPathEntry.Location = new Point(36, 53);
+        InputXMLPathEntry.Name = "DocPathEntry";
+        InputXMLPathEntry.ReadOnly = true;
+        InputXMLPathEntry.Size = new Size(497, 23);
+        InputXMLPathEntry.TabIndex = 1;
         // 
         // OutputEntry
         // 
@@ -334,7 +334,7 @@ partial class UserView
         Controls.Add(groupBox2);
         Controls.Add(groupBox1);
         Controls.Add(OutputEntry);
-        Controls.Add(DocPathEntry);
+        Controls.Add(InputXMLPathEntry);
         Controls.Add(label1);
         Name = "UserView";
         Text = "XML reader";
@@ -349,7 +349,7 @@ partial class UserView
     #endregion
 
     private Label label1;
-    private TextBox DocPathEntry;
+    private TextBox InputXMLPathEntry;
     private TextBox OutputEntry;
     private GroupBox groupBox1;
     private CheckBox NameCheckBox;

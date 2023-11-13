@@ -4,12 +4,23 @@ namespace Lab2;
 
 class SAXAlgorithm : IAlgorithmStrategy
 {
-    public List<Software> SearchingAlgorithm(string docPath, Software softwareQuery) 
+    public List<Software> SearchingAlgorithm(SearchParameters searchParameters) 
     { 
-        var xmlReader = new XmlTextReader(docPath);
+        var xmlReader = new XmlTextReader(searchParameters.InputXMLPath);
+
         List<Software> result = new List<Software>();
-        Dictionary<string, string> queryDictionary = softwareQuery.ToDictionary();
-        Dictionary<string, string> elementInfo = new Dictionary<string, string>();
+
+        Dictionary<string, string> queryDictionary = new Dictionary<string, string>
+        {
+            { "Name", searchParameters.Name },
+            { "Annotation", searchParameters.Annotation },
+            { "Type", searchParameters.Type },
+            { "Version", searchParameters.Version },
+            { "Author", searchParameters.Author },
+            { "TermsOfUsage", searchParameters.TermsOfUsage },
+            { "DistributiveLocation", searchParameters.DistributiveLocation }
+        };
+
         bool IsFirstIterationThroughArguments = true;
 
         while (xmlReader.Read()) 
@@ -19,7 +30,8 @@ class SAXAlgorithm : IAlgorithmStrategy
                 if (xmlReader.NodeType == XmlNodeType.Element
                 && xmlReader.HasAttributes)
                 {
-                    //Перевірка на задані умови
+                    Software software = new Software();
+
                     foreach (string key in queryDictionary.Keys)
                     {
                         while (xmlReader.MoveToNextAttribute())
@@ -33,24 +45,28 @@ class SAXAlgorithm : IAlgorithmStrategy
 
                             if (IsFirstIterationThroughArguments) 
                             {
-                                elementInfo.Add(xmlReader.Name, xmlReader.Value);
+                                var property = software.GetType().GetProperty(xmlReader.Name);
+
+                                if (property != null)
+                                { 
+                                    property.SetValue(software, xmlReader.Value);
+                                }
                             }    
                         }
                         xmlReader.MoveToAttribute("Name");
                         IsFirstIterationThroughArguments = false;
                     }
-                    result.Add(new Software(elementInfo));
-                    elementInfo.Clear();
+                    result.Add(software);
                     IsFirstIterationThroughArguments = true;
                 }
             }
 
             catch (Exception)
             {
-                elementInfo.Clear();
                 IsFirstIterationThroughArguments = true;
             }
         }
+
         return result;
     }
 }

@@ -2,15 +2,15 @@ namespace Lab2;
 
 public partial class UserView : Form
 {
-    private UserController controller;
+    private UserController userController;
 
     public UserView()
     {
         InitializeComponent();
 
-        controller = new UserController();
+        userController = new UserController();
 
-        this.FormClosing += AcceptClose;
+        FormClosing += AcceptClose;
 
         NameСomboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         AnnotationСomboBox.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -33,7 +33,7 @@ public partial class UserView : Form
 
                 if (dialogResult == DialogResult.OK)
                 {
-                    DocPathEntry.Text = openFileDialog.FileName;
+                    InputXMLPathEntry.Text = openFileDialog.FileName;
 
                     NameСomboBox.Items.Clear();
                     AnnotationСomboBox.Items.Clear();
@@ -74,7 +74,7 @@ public partial class UserView : Form
                 { "DistributiveLocation", new HashSet<string>() }
             };
 
-            uniqueAttributesValues = controller.SearchUniqueAttributesValues(DocPathEntry.Text);
+            uniqueAttributesValues = userController.SearchUniqueAttributesValues(InputXMLPathEntry.Text);
 
             NameСomboBox.Items.AddRange(uniqueAttributesValues["Name"].ToArray());
             AnnotationСomboBox.Items.AddRange(uniqueAttributesValues["Annotation"].ToArray());
@@ -84,24 +84,27 @@ public partial class UserView : Form
             TermsOfUsageСomboBox.Items.AddRange(uniqueAttributesValues["TermsOfUsage"].ToArray());
             DistributiveLocationСomboBox.Items.AddRange(uniqueAttributesValues["DistributiveLocation"].ToArray());
         }
+
         catch (Exception ex)
         {
-            DocPathEntry.Text = "";
+            InputXMLPathEntry.Text = "";
 
-            MessageBox.Show(string.Format("Сталася помилка зчитування: {0}", ex.Message), "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(string.Format("Сталася помилка зчитування: {0}", ex.Message), 
+                "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 
     private void FindBtnClick(object sender, EventArgs e)
     {
-        if (DocPathEntry.Text == "")
+        if (InputXMLPathEntry.Text == "")
         {
-            MessageBox.Show("Ви не вказали документ, який треба зчитати", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Ви не вказали документ, який треба зчитати", 
+                "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             return;
         }
 
-        string result = controller.FindInfo(DocPathEntry.Text, SoftwareQueryInitializer(), ChooseAlgorithm());
+        string result = userController.FindInfo(QueryParametersInitializer(), ChooseAlgorithm());
 
         ShowResult(result);
     }
@@ -121,10 +124,11 @@ public partial class UserView : Form
 
                 DialogResult dialogResult = openFileDialog.ShowDialog();
 
-                if (dialogResult == DialogResult.OK && DocPathEntry.Text != "")
+                if (dialogResult == DialogResult.OK && InputXMLPathEntry.Text != "")
                 {
-                    controller.TransformToHTML(DocPathEntry.Text, openFileDialog.FileName);
+                    userController.TransformToHTML(InputXMLPathEntry.Text, openFileDialog.FileName);
                 }
+
                 else
                 {
                     MessageBox.Show("Ви вказали невірний шлях для запису або не обрали документ для конвертації",
@@ -132,9 +136,11 @@ public partial class UserView : Form
                 }
             }
         }
+
         catch (Exception ex)
         {
-            MessageBox.Show(string.Format("Сталася помилка конвертації: {0}", ex.Message), "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(string.Format("Сталася помилка конвертації: {0}", ex.Message), 
+                "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 
@@ -154,46 +160,48 @@ public partial class UserView : Form
         }
     }
 
-    private Software SoftwareQueryInitializer()
+    private SearchParameters QueryParametersInitializer()
     {
-        Software software = new Software();
+        SearchParameters searchParameters = new SearchParameters();
+
+        searchParameters.InputXMLPath = InputXMLPathEntry.Text;
 
         if (NameCheckBox.Checked == true)
         {
-            software.Name = NameСomboBox.Text;
+            searchParameters.Name = NameСomboBox.Text;
         }
 
         if (AnnotationCheckBox.Checked == true)
         {
-            software.Annotation = AnnotationСomboBox.Text;
+            searchParameters.Annotation = AnnotationСomboBox.Text;
         }
 
         if (TypeCheckBox.Checked == true)
         {
-            software.Type = TypeСomboBox.Text;
+            searchParameters.Type = TypeСomboBox.Text;
         }
 
         if (VersionCheckBox.Checked == true)
         {
-            software.Version = VersionСomboBox.Text;
+            searchParameters.Version = VersionСomboBox.Text;
         }
 
         if (AuthorCheckBox.Checked == true)
         {
-            software.Author = AuthorСomboBox.Text;
+            searchParameters.Author = AuthorСomboBox.Text;
         }
 
         if (TermsOfUsageCheckBox.Checked == true)
         {
-            software.TermsOfUsage = TermsOfUsageСomboBox.Text;
+            searchParameters.TermsOfUsage = TermsOfUsageСomboBox.Text;
         }
 
         if (DistributiveCheckBox.Checked == true)
         {
-            software.DistributiveLocation = DistributiveLocationСomboBox.Text;
+            searchParameters.DistributiveLocation = DistributiveLocationСomboBox.Text;
         }
 
-        return software;
+        return searchParameters;
     }
 
     private string ChooseAlgorithm()
@@ -204,10 +212,12 @@ public partial class UserView : Form
         {
             algorithm = "SAX";
         }
+
         else if (DOMRadioBtn.Checked == true)
         {
             algorithm = "DOM";
         }
+
         else
         {
             algorithm = "LINQ";

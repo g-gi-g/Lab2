@@ -2,5 +2,5 @@
 
 interface IAlgorithmStrategy
 {
-    List<Software> SearchingAlgorithm(string docPath, Software softwareQuery);
+    List<Software> SearchingAlgorithm(SearchParameters searchParameters);
 }
