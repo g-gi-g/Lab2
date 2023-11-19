@@ -21,8 +21,6 @@ class SAXAlgorithm : IAlgorithmStrategy
             { "DistributiveLocation", searchParameters.DistributiveLocation }
         };
 
-        bool IsFirstIterationThroughArguments = true;
-
         while (xmlReader.Read()) 
         {
             try
@@ -34,37 +32,24 @@ class SAXAlgorithm : IAlgorithmStrategy
 
                     foreach (string key in queryDictionary.Keys)
                     {
-                        while (xmlReader.MoveToNextAttribute())
+                        xmlReader.MoveToNextAttribute();
+
+                        if (key == xmlReader.Name
+                            && queryDictionary[key] != ""
+                            && queryDictionary[key] != xmlReader.Value)
                         {
-                            if (key == xmlReader.Name
-                                && queryDictionary[key] != ""
-                                && queryDictionary[key] != xmlReader.Value)
-                            {
-                                throw new Exception("Element doesn't match requirements");
-                            }
-
-                            if (IsFirstIterationThroughArguments) 
-                            {
-                                var property = software.GetType().GetProperty(xmlReader.Name);
-
-                                if (property != null)
-                                { 
-                                    property.SetValue(software, xmlReader.Value);
-                                }
-                            }    
+                            throw new Exception("Element doesn't match requirements");
                         }
-                        xmlReader.MoveToAttribute("Name");
-                        IsFirstIterationThroughArguments = false;
+
+                        var property = software.GetType().GetProperty(xmlReader.Name);
+
+                        property.SetValue(software, xmlReader.Value);  
                     }
                     result.Add(software);
-                    IsFirstIterationThroughArguments = true;
                 }
             }
 
-            catch (Exception)
-            {
-                IsFirstIterationThroughArguments = true;
-            }
+            catch (Exception) {}
         }
 
         return result;
