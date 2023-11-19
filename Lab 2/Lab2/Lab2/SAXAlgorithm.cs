@@ -34,8 +34,7 @@ class SAXAlgorithm : IAlgorithmStrategy
                     {
                         xmlReader.MoveToNextAttribute();
 
-                        if (key == xmlReader.Name
-                            && queryDictionary[key] != ""
+                        if (queryDictionary[key] != ""
                             && queryDictionary[key] != xmlReader.Value)
                         {
                             throw new Exception("Element doesn't match requirements");
