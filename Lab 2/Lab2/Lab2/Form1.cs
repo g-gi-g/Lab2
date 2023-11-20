@@ -104,7 +104,9 @@ public partial class UserView : Form
             return;
         }
 
-        string result = userController.FindInfo(QueryParametersInitializer(), ChooseAlgorithm());
+        ChooseAlgorithm();
+
+        string result = userController.FindInfo(QueryParametersInitializer());
 
         ShowResult(result);
     }
@@ -204,25 +206,21 @@ public partial class UserView : Form
         return searchParameters;
     }
 
-    private string ChooseAlgorithm()
+    private void ChooseAlgorithm()
     {
-        string algorithm;
-
         if (SAXRadioBtn.Checked == true)
         {
-            algorithm = "SAX";
+            userController.SetAlgorithm(new SAXAlgorithm());
         }
 
         else if (DOMRadioBtn.Checked == true)
         {
-            algorithm = "DOM";
+            userController.SetAlgorithm(new DOMAlgorithm());
         }
 
         else
         {
-            algorithm = "LINQ";
+            userController.SetAlgorithm(new LINQToXMLAlgorithm());
         }
-
-        return algorithm;
     }
 }

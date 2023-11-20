@@ -6,21 +6,16 @@ namespace Lab2;
 
 class UserController
 {
-    private Dictionary<string, IAlgorithmStrategy> algorithms;
+    private IAlgorithmStrategy algorithm;
 
-    public UserController() 
-    {
-        algorithms = new Dictionary<string, IAlgorithmStrategy>()
-        {
-            { "SAX", new SAXAlgorithm() },
-            { "DOM", new DOMAlgorithm() },
-            { "LINQ", new LINQToXMLAlgorithm() }
-        };
+    public void SetAlgorithm(IAlgorithmStrategy algorithm)
+    { 
+        this.algorithm = algorithm;
     }
 
-    public string FindInfo(SearchParameters searchParameters, string algorithmKey)
+    public string FindInfo(SearchParameters searchParameters)
     {
-        List<Software> softwareList = algorithms[algorithmKey].SearchingAlgorithm(searchParameters);
+        List<Software> softwareList = algorithm.SearchingAlgorithm(searchParameters);
 
         StringBuilder result = new StringBuilder();
 
